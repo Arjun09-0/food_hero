@@ -144,7 +144,7 @@ export default function VolunteerRegisterPage() {
         {step < 2 && (
           <>
             <div className="divider-text" style={{ margin: '1.5rem 0' }}>already have an account?</div>
-            <button className="btn-google" onClick={() => window.location.href = 'http://localhost:5001/auth/google'}>
+            <button className="btn-google" onClick={() => window.location.href = '/auth/google'}>
               {GOOGLE_SVG} Continue with Google
             </button>
             <p style={{ textAlign: 'center', fontSize: '0.82rem', color: '#6b8f74', marginTop: '0.8rem' }}>

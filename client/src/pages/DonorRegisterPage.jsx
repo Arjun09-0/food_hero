@@ -103,7 +103,7 @@ export default function DonorRegisterPage() {
         {/* Divider */}
         <div className="divider-text" style={{ margin: '1.5rem 0' }}>or continue with</div>
 
-        <button className="btn-google" onClick={() => window.location.href = 'http://localhost:5001/auth/google'}>
+        <button className="btn-google" onClick={() => window.location.href = '/auth/google'}>
           {GOOGLE_SVG} Continue with Google
         </button>
 

@@ -78,7 +78,7 @@ export default function LoginPage() {
             {/* Google OAuth — prominent */}
             <button
               className="btn-google shimmer-btn"
-              onClick={() => window.location.href = 'http://localhost:5001/auth/google'}
+              onClick={() => window.location.href = '/auth/google'}
             >
               {GOOGLE_SVG} Continue with Google
             </button>

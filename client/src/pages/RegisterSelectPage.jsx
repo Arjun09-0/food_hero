@@ -165,7 +165,7 @@ export default function RegisterSelectPage() {
       {/* Google OAuth */}
       <div className="fade-in" style={{ marginTop: '2.5rem', width: '100%', maxWidth: 420, position: 'relative', zIndex: 1, animationDelay: '0.4s', animationFillMode: 'both' }}>
         <div className="divider-text">already have an account? sign in with Google</div>
-        <button className="btn-google shimmer-btn" onClick={() => window.location.href = 'http://localhost:5001/auth/google'}>
+        <button className="btn-google shimmer-btn" onClick={() => window.location.href = '/auth/google'}>
           {GOOGLE_SVG} Continue with Google
         </button>
         <p style={{ textAlign: 'center', marginTop: '1rem', fontSize: '0.83rem', color: '#7ba4c7' }}>
