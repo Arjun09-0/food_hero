@@ -47,7 +47,7 @@ if (isProd) {
   const clientDist = path.join(__dirname, '../client/dist');
   app.use(express.static(clientDist));
   // Catch-all: let React Router handle client-side routes
-  app.get('*', (req, res) => {
+  app.get('/*', (req, res) => {
     res.sendFile(path.join(clientDist, 'index.html'));
   });
 } else {
