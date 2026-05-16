@@ -2,12 +2,23 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/User');
 
+const getServerOrigin = () => {
+  const fallback = 'http://localhost:5001';
+  const raw = process.env.SERVER_URL || fallback;
+
+  try {
+    return new URL(raw).origin;
+  } catch (err) {
+    return fallback;
+  }
+};
+
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${process.env.SERVER_URL || 'http://localhost:5001'}/auth/google/callback`,
+      callbackURL: `${getServerOrigin()}/auth/google/callback`,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
