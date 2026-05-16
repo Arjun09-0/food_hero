@@ -5,7 +5,7 @@ services:
     region: singapore
     plan: free
     rootDir: server
-    buildCommand: cd ../client && npm install && npm run build && cd ../server && npm install
+    buildCommand: cd ../client && npm install --include=dev && npm run build && cd ../server && npm install --omit=dev
     startCommand: node server.js
     envVars:
       - key: NODE_ENV
