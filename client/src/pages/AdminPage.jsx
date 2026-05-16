@@ -21,7 +21,7 @@ export default function AdminPage() {
   const [applications, setApplications] = useState([]);
   const [pendingAppCount, setPendingAppCount] = useState(0);
   const [approveModal, setApproveModal] = useState(null); // application object
-  const [approveForm, setApproveForm] = useState({ lat: '', lng: '' });
+  const [approveForm, setApproveForm] = useState({ password: '', lat: '', lng: '' });
   const [approveLoading, setApproveLoading] = useState(false);
 
   const fetchData = useCallback(async () => {
@@ -114,12 +114,13 @@ export default function AdminPage() {
 
   const approveApp = async (e) => {
     e.preventDefault();
+    if (!approveForm.password) return toast.error('Password is required');
     setApproveLoading(true);
     try {
       await api.post(`/applications/${approveModal._id}/approve`, approveForm);
       toast.success(`✅ Volunteer account created for ${approveModal.name}!`);
       setApproveModal(null);
-      setApproveForm({ lat: '', lng: '' });
+      setApproveForm({ password: '', lat: '', lng: '' });
       fetchData();
     } catch (err) {
       toast.error(err.response?.data?.message || 'Approval failed');
@@ -138,8 +139,9 @@ export default function AdminPage() {
             <h3 style={{ fontWeight: 800, marginBottom: '0.3rem' }}>✅ Approve Application</h3>
             <p style={{ color: '#6b8f74', fontSize: '0.85rem', marginBottom: '1.2rem' }}>Create account for <strong style={{ color: '#f0fdf4' }}>{approveModal.name}</strong> ({approveModal.email})</p>
             <form onSubmit={approveApp}>
-              <div style={{ background: 'rgba(22,163,74,0.08)', border: '1px solid rgba(22,163,74,0.2)', borderRadius: 12, padding: '0.85rem 1rem', marginBottom: '1rem', fontSize: '0.85rem', color: '#a7f3d0' }}>
-                The password will be generated automatically and emailed to the volunteer’s registered email address after approval.
+              <div className="form-group">
+                <label className="form-label">Set Password for Volunteer</label>
+                <input className="form-input" type="password" value={approveForm.password} onChange={(e) => setApproveForm((p) => ({ ...p, password: e.target.value }))} placeholder="Min 6 characters" required minLength={6} />
               </div>
 
               <div className="grid-2">
