@@ -4,19 +4,18 @@ services:
     env: node
     region: singapore
     plan: free
-    rootDir: server
-    buildCommand: cd ../client && npm install --include=dev && npm run build && cd ../server && npm install --omit=dev
-    startCommand: node server.js
+    buildCommand: npm run build && cd server && npm install
+    startCommand: cd server && node server.js
     envVars:
       - key: NODE_ENV
         value: production
       - key: MONGO_URI
-        sync: false        # set manually in Render dashboard
+        sync: false
       - key: JWT_SECRET
-        sync: false        # set manually in Render dashboard
+        sync: false
       - key: GOOGLE_CLIENT_ID
-        sync: false        # set manually in Render dashboard
+        sync: false
       - key: GOOGLE_CLIENT_SECRET
-        sync: false        # set manually in Render dashboard
+        sync: false
       - key: CLIENT_URL
-        sync: false        # set to your Render app URL e.g. https://foodhero.onrender.com
+        sync: false
