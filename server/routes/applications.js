@@ -3,6 +3,8 @@ const router = express.Router();
 const VolunteerApplication = require('../models/VolunteerApplication');
 const User = require('../models/User');
 const Notification = require('../models/Notification');
+const crypto = require('crypto');
+const { sendVolunteerCredentialsEmail } = require('../utils/mailer');
 const { protect, authorize } = require('../middleware/authMiddleware');
 
 // @route   POST /applications
@@ -75,8 +77,7 @@ router.patch('/:id/reject', protect, authorize('admin'), async (req, res) => {
 // @access  Private (admin)
 router.post('/:id/approve', protect, authorize('admin'), async (req, res) => {
   try {
-    const { password, lat, lng } = req.body;
-    if (!password) return res.status(400).json({ message: 'A password is required for the new volunteer account' });
+    const { lat, lng } = req.body;
 
     const application = await VolunteerApplication.findById(req.params.id);
     if (!application) return res.status(404).json({ message: 'Application not found' });
@@ -90,6 +91,8 @@ router.post('/:id/approve', protect, authorize('admin'), async (req, res) => {
       return res.status(409).json({ message: 'This email is already registered as a user.' });
     }
 
+    const password = crypto.randomBytes(6).toString('base64url');
+
     // Create volunteer account (pre-save hook hashes password)
     const volunteer = await User.create({
       name: application.name,
@@ -101,6 +104,8 @@ router.post('/:id/approve', protect, authorize('admin'), async (req, res) => {
       isVerified: true,
       isAvailable: true,
     });
+
+    await sendVolunteerCredentialsEmail(volunteer.email, password, volunteer.name);
 
     // Mark application approved
     application.status = 'approved';
